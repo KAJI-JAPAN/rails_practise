@@ -39,6 +39,7 @@ class SelectedStrategy
 end
 
 # 他のクラスで使用する場合
+# LogDecoratorを呼び出した場合NotifyDecoratorを実行
 class StrategyRefactoringCall
   def initialize(strategy)
     @strategy = strategy
@@ -48,5 +49,26 @@ class StrategyRefactoringCall
   end
 end
 
-# Decoratorパターンを追加する
+# Decoratorパターンを追加する 通知系
+class NotifyDecorator < NotifyStrategy
+  def initialize(strategy)
+    @strategy = strategy
+  end
 
+  def select_send_message_tool(user)
+    @strategy.select_send_message_tool(user)
+  end
+end
+
+class LogDecorator < NotifyDecorator
+  def select_send_message_tool(user)
+    puts "Log message sent to #{user}"
+    super
+  end
+end
+
+# 実行例
+# notifier = LogDecorator.new(Email.new)  # EmailはNotifyStrategyを継承していると仮定
+#   - LogDecoratorはNotifyDecoratorを継承しているため、NotifyDecoratorのinitializeを実行
+#   -
+# notifier.select_send_message_tool(user)
