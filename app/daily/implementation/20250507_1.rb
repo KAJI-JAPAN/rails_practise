@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   # カラム: id, name, email, active:boolean
 
-  scope: 
+  scope :active_users, -> { where(active: true) }
 end
 
 # 以下の要件を満たす スコープ active_users を User モデルに実装してください：
