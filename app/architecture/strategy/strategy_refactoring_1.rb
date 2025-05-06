@@ -18,7 +18,7 @@ end
 #  3. メソッドを共通化する
 #  4. 共通で呼び出せるようにするメソッドを作成する
 class NotifyStrategy
-    def select_send_message_tool(notify_info)
+  def select_send_message_tool(notify_info)
     raise "Unknown notification type"
   end
 end
