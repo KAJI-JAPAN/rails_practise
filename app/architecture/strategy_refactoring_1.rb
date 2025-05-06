@@ -41,16 +41,43 @@ class Slack < NotifyStrategy
   end
 end
 
+# 選択する場合
+class SelectedStrategy
+  def self.build(type)
+    case type
+    when :email
+      Email.new
+    when :sms
+      Sms.new
+    when :slack
+      Slack.new
+    else
+      raise "Unknown strategy type #{type}"
+    end
+  end
+end
+
+# 他のクラスで使用する場合
 class StrategyRefactoringCall
   def initialize(strategy)
     @strategy = strategy
   end
-  def select_send_message_tool
-    @strategy.select_send_message_tool
+  def select_send_message_tool(user)
+    @strategy.select_send_message_tool(user)
   end
 end
 
-#使い方
+# 使い方
 # StrategyRefactoringCall.new(Email.new).select_send_message_tool
-# StrategyRefactoringCall.new(Sms).select_send_message_tool
-# StrategyRefactoringCall.new(Slack).select_send_message_tool
+# StrategyRefactoringCall.new(Sms.new).select_send_message_tool
+# StrategyRefactoringCall.new(Slack.new).select_send_message_tool
+
+
+
+# StrategyRefactoringCallとSelectedStrategyは責務が違う
+#   - SelectedStrategyで選んでStrategyRefactoringCallで使用する
+#   - 使用例
+#   - 目的；SMSを使用したい
+# 　  sms = SelectedStrategy(sms)
+#     sms_send = StrategyRefactoringCall.new(sms)
+
