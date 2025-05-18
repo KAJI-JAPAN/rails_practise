@@ -43,7 +43,7 @@ class BankTransfer < BasePayment
   end
 
   def pay
-    pp ""
+    pp "銀行払いを実行"
   end
 end
 
@@ -56,6 +56,10 @@ class ElectronicMoneyPayment < BasePayment
       raise "電子マネーに関連するエラーです"
     end
     @card_info = card_info
+  end
+
+  def pay
+    pp "電子決済払いを実行"
   end
 end
 
