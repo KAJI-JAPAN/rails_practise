@@ -20,7 +20,7 @@ end
 
 
 #修正
-# サービスクラス
+# service
 class User::DeactivateService
   def initialize(user)
     @user = user
@@ -33,4 +33,9 @@ class User::DeactivateService
   rescue => e
     Rails.logger.error "ユーザーの退会処理に失敗しました#{e.message}"
   end
+end
+
+# model
+class User < ActiveRecord
+  has_many :sessions, dependent: :destroy
 end
