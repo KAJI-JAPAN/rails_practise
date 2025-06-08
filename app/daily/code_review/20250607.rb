@@ -44,7 +44,7 @@ end
 #Structを使用する
 class ReportService
 
-  Result = Struct.new(:report, :errors, :successes?)
+  Result = Struct.new(:report, :errors, :success?, keyword_init: true)
   def self.call(user_id, report_params)
     new(user_id, report_params).call
   end
@@ -62,9 +62,9 @@ class ReportService
       report = @user.reports.build(@report_params)
       create_notification(@user)
       if report.save
-        return Result.new(report, nil, true)
+        return success(report)
       else
-        return Result.new(nil, report.errors.full_messages, false)
+        return failure(report.errors.full_messages)
       end
     end
   rescue => e
@@ -81,7 +81,11 @@ class ReportService
     )
   end
 
+  def success(report)
+    Result.new(report: report, error: nil, success: true)
+  end
+
   def failure(errors)
-    Result.new(errors, false, true)
+    Result.new(report: nil, error: errors, success: false)
   end
 end
