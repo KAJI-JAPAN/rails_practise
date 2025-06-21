@@ -32,7 +32,7 @@ class ArticlesController
 end
 
 class UserRegistrationService
-  Result = new Struct(:success?: true, :error, keyword_init: true)
+  Result = new Struct(:success?, :error, keyword_init: true)
 
   def initialize(user_params)
     @user_params = user_params
